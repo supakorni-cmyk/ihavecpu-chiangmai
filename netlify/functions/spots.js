@@ -23,9 +23,9 @@ const INITIAL_DATA = {
     "layoutImages": ["images/IST7.jpg", "images/IST10.jpg"],
     "spots": {
       "TST-1": { "name": "TST-1", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
-      "TST-2": { "name": "IST-2", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
-      "TST-3": { "name": "IST-3", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
-      "TST-4": { "name": "IST-4", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" }
+      "TST-2": { "name": "TST-2", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
+      "TST-3": { "name": "TST-3", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
+      "TST-4": { "name": "TST-4", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" }
     }
   },
   "interiorLogo": {
