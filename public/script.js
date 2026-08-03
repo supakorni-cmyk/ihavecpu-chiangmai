@@ -80,8 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const initializeApp = async () => {
         try {
-            const response = await fetch('/api/spots');
+            // ADD { cache: 'no-store' } to force a fresh fetch from the database!
+            const response = await fetch('/.netlify/functions/spots', { 
+                cache: 'no-store' 
+            });
             spotsData = await response.json();
+            
             renderZoneTabs();
             const firstZoneId = Object.keys(spotsData)[0];
             if (firstZoneId) renderZone(firstZoneId);
