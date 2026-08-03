@@ -50,23 +50,19 @@ header {
     box-sizing: border-box; /* Add this to ensure padding is included in the width */
 }
 
-/* --- Hero Section --- */
-
 header.header-hidden {
     transform: translateY(-100%);
 }
 
 .logo {
-	/* The parent div doesn't need text styling anymore */
-	display: flex; /* Helps with vertical alignment if needed */
+	display: flex;
 	align-items: center;
 }
 
-/* Style the image inside the logo container */
 .logo img {
-	height: 40px; /* Adjust the height of your logo as needed */
-	width: auto;  /* Maintain aspect ratio */
-	display: block; /* Removes extra space below the image */
+	height: 40px;
+	width: auto;
+	display: block;
 }
 
 header nav a {
@@ -80,6 +76,7 @@ header nav a:hover {
 	color: var(--primary-color);
 }
 
+/* --- Hero Section --- */
 #hero {
 	background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(images/1.jpg) fixed top center/cover;
 	color: var(--light-color);
@@ -95,23 +92,7 @@ header nav a:hover {
 	margin-bottom: 1rem;
 }
 
-.cta-button {
-	display: inline-block;
-	background-color: var(--primary-color);
-	color: var(--light-color);
-	padding: 12px 24px;
-	text-decoration: none;
-	border-radius: 5px;
-	font-weight: bold;
-	margin-top: 1rem;
-	transition: background-color 0.3s;
-}
-
-.cta-button:hover {
-	background-color: #e03e00;
-}
-
-/* --- Hero Section Entrance Animations --- */
+/* --- ANIMATION: Hero Section Entrance Animations --- */
 @keyframes fadeUp {
     from {
         opacity: 0;
@@ -123,17 +104,15 @@ header nav a:hover {
     }
 }
 
-/* Apply base animation to all text elements in the hero */
 .hero-content h1,
 .hero-content h2,
 .hero-content h3,
 .hero-content p,
 .hero-content .cta-button {
-    opacity: 0; /* Start hidden before animation triggers */
+    opacity: 0;
     animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Stagger the entrance timing for each element */
 .hero-content h1 {
     animation-delay: 0.2s;
 }
@@ -154,6 +133,29 @@ header nav a:hover {
     animation-delay: 1.0s;
 }
 
+/* --- ANIMATION: CTA Buttons with Lift & Glow --- */
+.cta-button {
+	display: inline-block;
+	background-color: var(--primary-color);
+	color: var(--light-color);
+	padding: 12px 24px;
+	text-decoration: none;
+	border-radius: 5px;
+	font-weight: bold;
+	margin-top: 1rem;
+	transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cta-button:hover {
+	background-color: #e03e00;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(222, 73, 60, 0.4);
+}
+
+.cta-button:active {
+    transform: translateY(-1px);
+}
+
 .content-section {
 	max-width: 1200px;
 	margin: 3rem auto;
@@ -171,19 +173,25 @@ header nav a:hover {
 	display: inline-block;
 }
 
+/* --- ANIMATION: Expanding Underline on Section Headers --- */
 .content-section h2::after {
 	content: '';
 	display: block;
-	width: 60%;
+	width: 40%;
 	height: 4px;
 	background-color: var(--primary-color);
 	margin: 0.5rem auto 0;
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- Gallery Section (UPDATED) --- */
+.content-section h2:hover::after {
+    width: 80%;
+}
+
+/* --- Gallery Section --- */
 .gallery-main-image {
     width: 100%;
-    max-width: 800px; /* Limits the max size of the main image */
+    max-width: 800px;
     margin: 0 auto 1.5rem;
     border-radius: 8px;
     overflow: hidden;
@@ -198,9 +206,11 @@ header nav a:hover {
     object-fit: cover;
     transition: transform 0.3s ease;
 }
+
 .gallery-main-image:hover #main-gallery-image {
     transform: scale(1.03);
 }
+
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -208,6 +218,7 @@ header nav a:hover {
     max-width: 800px;
     margin: auto;
 }
+
 .gallery-thumb {
     width: 100%;
     height: 100%;
@@ -217,10 +228,12 @@ header nav a:hover {
     border: 3px solid transparent;
     transition: all 0.3s;
 }
+
 .gallery-thumb:hover {
     border-color: var(--primary-color);
     transform: scale(1.05);
 }
+
 .gallery-thumb.active-thumb {
     border-color: var(--primary-color);
     box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
@@ -228,9 +241,9 @@ header nav a:hover {
 
 /* --- Modal Styles --- */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 2000; /* Sit on top of everything */
+    display: none;
+    position: fixed;
+    z-index: 2000;
     padding-top: 60px;
     left: 0;
     top: 0;
@@ -239,12 +252,14 @@ header nav a:hover {
     overflow: auto;
     background-color: rgba(0,0,0,0.9);
 }
+
 .modal-content {
     margin: auto;
     display: block;
     width: 80%;
     max-width: 1200px;
 }
+
 .close-modal {
     position: absolute;
     top: 15px;
@@ -255,16 +270,16 @@ header nav a:hover {
     transition: 0.3s;
     cursor: pointer;
 }
+
 .close-modal:hover,
 .close-modal:focus {
     color: #bbb;
     text-decoration: none;
 }
 
-
 .layout-main-image {
     width: 100%;
-    max-width: 800px; /* Limits the max size of the main image */
+    max-width: 800px;
     margin: 0 auto 1.5rem;
     border-radius: 8px;
     overflow: hidden;
@@ -302,10 +317,9 @@ header nav a:hover {
 	flex: 1;
 }
 
-
 /* --- Location Potential Section --- */
 #potential {
-	background-color: var(--light-color);     /* Or var(--grey-color) for contrast */
+	background-color: var(--light-color);
 }
 
 .potential-container {
@@ -316,13 +330,20 @@ header nav a:hover {
 	text-align: left;
 }
 
+/* --- ANIMATION: Tactile Hover & Card Lift --- */
 .potential-item {
-	background-color: var(--grey-color);     /* Or var(--light-color) if section is grey */
+	background-color: var(--grey-color);
 	padding: 2rem;
 	border-radius: 8px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 	flex-basis: 300px;
 	border-left: 4px solid var(--primary-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.potential-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
 }
 
 .potential-item h3 {
@@ -361,11 +382,11 @@ header nav a:hover {
 /* Zone Tabs Styling */
 .zone-tabs {
     display: flex;
-    justify-content: center; /* This centers the tabs */
-    flex-wrap: wrap;         /* This allows them to wrap */
-    width: 100%;             /* <-- THIS IS THE FIX */
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
     margin-bottom: 1.5rem;
-    box-sizing: border-box;  /* Good practice for layout */
+    box-sizing: border-box;
 }
 
 .zone-tab { 
@@ -380,7 +401,7 @@ header nav a:hover {
 
 .zone-tab.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
 
-/* NEW: Zone Reference Image */
+/* Zone Reference Image */
 .zone-image-container {
     width: 100%;
     margin-bottom: 1.5rem;
@@ -395,7 +416,7 @@ header nav a:hover {
     object-fit: cover;
 }
 
-/* NEW: Spot Buttons Container */
+/* Spot Buttons Container */
 .spot-buttons-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -422,11 +443,27 @@ header nav a:hover {
 	transform: scale(110%);
 	transition: ease-in-out 0.3s;
 }
+
+/* --- ANIMATION: Breathing Glow for Selected Spots --- */
+@keyframes selectedPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(222, 73, 60, 0.5);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(222, 73, 60, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(222, 73, 60, 0);
+    }
+}
+
 .spot-button.selected {
     background-color: var(--primary-color);
     color: #fff;
     border-color: var(--primary-color);
+    animation: selectedPulse 2s infinite;
 }
+
 .spot-button.booked {
     background-color: #e9ecef;
     color: #6c757d;
@@ -435,7 +472,7 @@ header nav a:hover {
     text-decoration: line-through;
 }
 
-/* Summary Panel Content (unchanged) */
+/* Summary Panel Content */
 #summary-content ul { list-style: none; padding: 0; margin: 0; }
 #summary-content li { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; }
 #summary-total { display: flex; justify-content: space-between; font-weight: bold; font-size: 1.2rem; padding: 15px 10px; margin-top: 10px; border-top: 2px solid #333; }
@@ -457,7 +494,6 @@ header nav a:hover {
 	transition: ease-in-out 0.5s;
 }
 
-/* NEW: Style for the single image container */
 .single-image-container {
     width: 100%;
     border-radius: 8px;
@@ -482,7 +518,7 @@ header nav a:hover {
 }
 
 .slider-slide {
-    display: none; /* Hide all slides by default */
+    display: none;
 }
 
 .slider-slide img {
@@ -492,14 +528,21 @@ header nav a:hover {
     object-fit: cover;
 }
 
-/* Fade animation */
+/* --- ANIMATION: Fade & Smooth Zoom-in --- */
 .fade {
     animation-name: fade;
     animation-duration: 0.8s;
 }
+
 @keyframes fade {
-    from { opacity: .4 } 
-    to { opacity: 1 }
+    from { 
+        opacity: 0.4;
+        transform: scale(1.03);
+    } 
+    to { 
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 /* Next & previous buttons */
@@ -567,7 +610,7 @@ header nav a:hover {
 }
 
 .summary-row.discount {
-    color: #28a745; /* Green color for the discount */
+    color: #28a745;
     font-weight: bold;
 }
 
@@ -596,30 +639,27 @@ footer {
 	padding: 1.5rem;
 }
 
-/* --- Tablet Breakpoint (for larger layout changes) --- */
+/* --- Tablet Breakpoint --- */
 @media (max-width: 992px) {
-    /* Stack the booking system vertically */
     .booking-app-container {
         flex-direction: column;
     }
 
-    /* Allow map and summary panel to take full width */
     .spot-selection-area {
         min-width: 100%;
     }
     
     .summary-panel {
 		min-width: 100%;
-        position: static; /* Unstick the summary panel on smaller screens */
+        position: static;
     }
 
-    /* Stack location map and address info */
     .location-container {
         flex-direction: column;
     }
 }
 
-/* --- Mobile Breakpoint (for navigation and smaller tweaks) --- */
+/* --- Mobile Breakpoint --- */
 @media (max-width: 768px) {
     .content-section {
         padding: 2rem 1rem;
@@ -631,9 +671,9 @@ footer {
         font-size: 2rem;
     }
 
-    /* --- Hamburger Menu Logic --- */
+    /* Hamburger Menu Logic */
     .menu-toggle {
-        display: flex; /* Show the hamburger button */
+        display: flex;
         flex-direction: column;
         justify-content: space-around;
         width: 30px;
@@ -642,7 +682,7 @@ footer {
         border: none;
         cursor: pointer;
         padding: 0;
-        z-index: 1001; /* Ensure it's on top of other content */
+        z-index: 1001;
     }
     .menu-toggle .bar {
         display: block;
@@ -652,7 +692,6 @@ footer {
         border-radius: 2px;
         transition: all 0.3s ease-in-out;
     }
-    /* Animate hamburger to an 'X' */
     .menu-toggle.active .bar:nth-child(1) {
         transform: rotate(45deg) translate(7px, 7px);
     }
@@ -663,7 +702,7 @@ footer {
         transform: rotate(-45deg) translate(6px, -6px);
     }
 
-    /* --- Navigation Menu Styling for Mobile --- */
+    /* Navigation Menu Styling for Mobile */
     header nav {
         display: flex;
         flex-direction: column;
@@ -672,7 +711,7 @@ footer {
         gap: 2rem;
         position: fixed;
         top: 0;
-        right: -100%; /* Start off-screen */
+        right: -100%;
         width: 80%;
         height: 100vh;
         background-color: var(--dark-color);
@@ -680,18 +719,16 @@ footer {
         z-index: 1000;
     }
     header nav.active {
-        right: 0; /* Slide in when active */
+        right: 0;
     }
     header nav a {
         font-size: 1.5rem;
         margin-left: 0;
     }
     
-    /* Stack other content sections */
     .potential-container {
         flex-direction: column;
     }
-    
 }
 
 /* Hide hamburger button on desktop by default */
