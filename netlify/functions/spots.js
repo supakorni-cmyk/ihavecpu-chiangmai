@@ -71,8 +71,11 @@ export default async (req) => {
         let adSpots = await spotsStore.get("spots-data", { type: "json" });
 
         // --- 2. THE FIX: Initialize if empty! ---
-        adSpots = INITIAL_DATA;
-        await spotsStore.setJSON("spots-data", adSpots);
+        if (!adSpots) {
+            console.log("Database is empty. Initializing with default data...");
+            adSpots = INITIAL_DATA;
+            await spotsStore.setJSON("spots-data", adSpots);
+        }
 
         return new Response(JSON.stringify(adSpots), { 
             status: 200,
