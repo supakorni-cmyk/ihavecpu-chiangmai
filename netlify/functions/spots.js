@@ -67,35 +67,18 @@ export default async (req) => {
     try {
         const spotsStore = getStore("spots");
         
-        // 1. Fetch your existing cloud database (which holds your real bookings)
-        let currentDB = await spotsStore.get("spots-data", { type: "json" });
+        // 1. Fetch existing data from the database
+        let adSpots = await spotsStore.get("spots-data", { type: "json" });
 
-        // 2. Make a fresh copy of your newly edited INITIAL_DATA
-        let updatedDB = JSON.parse(JSON.stringify(INITIAL_DATA));
-
-        // 3. THE SAFE MERGE: Copy any existing bookings into your new structure
-        if (currentDB) {
-            for (const zoneId in currentDB) {
-                if (updatedDB[zoneId] && currentDB[zoneId].spots) {
-                    for (const spotId in currentDB[zoneId].spots) {
-                        const oldSpot = currentDB[zoneId].spots[spotId];
-                        const newSpot = updatedDB[zoneId].spots[spotId];
-
-                        // If the spot was already booked in the database, keep it booked!
-                        if (newSpot && oldSpot.status === 'Booked') {
-                            newSpot.status = 'Booked';
-                            newSpot.bookedBy = oldSpot.bookedBy || '';
-                            newSpot.brand = oldSpot.brand || '';
-                        }
-                    }
-                }
-            }
+        // 2. ONLY initialize if the database is 100% empty
+        if (!adSpots) {
+            console.log("Database empty. Initializing default spots...");
+            adSpots = INITIAL_DATA;
+            await spotsStore.setJSON("spots-data", adSpots);
         }
 
-        // 4. Save the merged data back to Netlify Blobs
-        await spotsStore.setJSON("spots-data", updatedDB);
-
-        return new Response(JSON.stringify(updatedDB), { 
+        // 3. Return the data without modifying or overwriting anything
+        return new Response(JSON.stringify(adSpots), { 
             status: 200,
             headers: { "Content-Type": "application/json" } 
         });
