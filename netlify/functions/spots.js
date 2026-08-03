@@ -43,19 +43,19 @@ const INITIAL_DATA = {
       "A9": { "name": "A9 - Case & Cooling", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
       "A10": { "name": "A10 - Case & Cooling", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
       "A11": { "name": "A11 - Case & Cooling", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
-      "A12": { "name": "A12 - DIY", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
-      "A13": { "name": "A13 - DIY", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
-      "A14": { "name": "A14 - DIY", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
-      "A15": { "name": "A15 - DIY", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
-      "A16": { "name": "A16 - DIY", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
-      "A17": { "name": "A17 - DIY", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
-      "A18": { "name": "A18 - DIY", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
-      "A19": { "name": "A19 - DIY", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
-      "A20": { "name": "A20 - Gaming Gear", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
-      "A21": { "name": "A21 - Gaming Gear", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
-      "A22": { "name": "A22 - Gaming Gear", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
-      "A23": { "name": "A23 - Gaming Gear", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
-      "A24": { "name": "A24 - Gaming Gear", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
+      "A12": { "name": "A12 - DIY", "size": "3m x 1.5m", "price": 50000, "status": "Available", "bookedBy": "" },
+      "A13": { "name": "A13 - DIY", "size": "3m x 1.5m", "price": 50000, "status": "Available", "bookedBy": "" },
+      "A14": { "name": "A14 - DIY", "size": "3m x 1.5m", "price": 50000, "status": "Available", "bookedBy": "" },
+      "A15": { "name": "A15 - DIY", "size": "3m x 1.5m", "price": 50000, "status": "Available", "bookedBy": "" },
+      "A16": { "name": "A16 - DIY", "size": "3m x 1.5m", "price": 50000, "status": "Available", "bookedBy": "" },
+      "A17": { "name": "A17 - DIY", "size": "3m x 1.5m", "price": 50000, "status": "Available", "bookedBy": "" },
+      "A18": { "name": "A18 - DIY", "size": "3m x 1.5m", "price": 50000, "status": "Available", "bookedBy": "" },
+      "A19": { "name": "A19 - DIY", "size": "3m x 1.5m", "price": 50000, "status": "Available", "bookedBy": "" },
+      "A20": { "name": "A20 - Gaming Gear", "size": "3m x 1.5m", "price": 50000, "status": "Available", "bookedBy": "" },
+      "A21": { "name": "A21 - Gaming Gear", "size": "3m x 1.5m", "price": 50000, "status": "Available", "bookedBy": "" },
+      "A22": { "name": "A22 - Gaming Gear", "size": "3m x 1.5m", "price": 50000, "status": "Available", "bookedBy": "" },
+      "A23": { "name": "A23 - Gaming Gear", "size": "3m x 1.5m", "price": 50000, "status": "Available", "bookedBy": "" },
+      "A24": { "name": "A24 - Gaming Gear", "size": "3m x 1.5m", "price": 50000, "status": "Available", "bookedBy": "" },
       "A25": { "name": "A25 - Accessory", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
       "A26": { "name": "A26 - CPU", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" },
       "A27": { "name": "A27 - CPU", "size": "3m x 1.5m", "price": 40000, "status": "Available", "bookedBy": "" }
@@ -67,17 +67,35 @@ export default async (req) => {
     try {
         const spotsStore = getStore("spots");
         
-        // Try to get existing data
-        let adSpots = await spotsStore.get("spots-data", { type: "json" });
+        // 1. Fetch your existing cloud database (which holds your real bookings)
+        let currentDB = await spotsStore.get("spots-data", { type: "json" });
 
-        // --- 2. THE FIX: Initialize if empty! ---
-        if (!adSpots) {
-            console.log("Database is empty. Initializing with default data...");
-            adSpots = INITIAL_DATA;
-            await spotsStore.setJSON("spots-data", adSpots);
+        // 2. Make a fresh copy of your newly edited INITIAL_DATA
+        let updatedDB = JSON.parse(JSON.stringify(INITIAL_DATA));
+
+        // 3. THE SAFE MERGE: Copy any existing bookings into your new structure
+        if (currentDB) {
+            for (const zoneId in currentDB) {
+                if (updatedDB[zoneId] && currentDB[zoneId].spots) {
+                    for (const spotId in currentDB[zoneId].spots) {
+                        const oldSpot = currentDB[zoneId].spots[spotId];
+                        const newSpot = updatedDB[zoneId].spots[spotId];
+
+                        // If the spot was already booked in the database, keep it booked!
+                        if (newSpot && oldSpot.status === 'Booked') {
+                            newSpot.status = 'Booked';
+                            newSpot.bookedBy = oldSpot.bookedBy || '';
+                            newSpot.brand = oldSpot.brand || '';
+                        }
+                    }
+                }
+            }
         }
 
-        return new Response(JSON.stringify(adSpots), { 
+        // 4. Save the merged data back to Netlify Blobs
+        await spotsStore.setJSON("spots-data", updatedDB);
+
+        return new Response(JSON.stringify(updatedDB), { 
             status: 200,
             headers: { "Content-Type": "application/json" } 
         });
